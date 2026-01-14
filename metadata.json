@@ -1,5 +1,5 @@
 {
-  "name": "Decision Autopilot: Decomposer",
-  "description": "An autonomous decision orchestration system that decomposes high-stakes decisions into structured components using Gemini 3.",
+  "name": "Decision Autopilot: Decomposer & Adversary",
+  "description": "An autonomous decision orchestration system that decomposes high-stakes decisions and generates adversarial failure scenarios using Gemini 3.",
   "requestFramePermissions": []
 }

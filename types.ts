@@ -44,3 +44,21 @@ export interface DecomposeRequest {
   decision: string;
   context: string;
 }
+
+export type Severity = 'LOW' | 'HIGH' | 'CRITICAL';
+
+export interface AdversarialScenario {
+  id: string;
+  severity: Severity;
+  description: string;
+  triggered_by: string[];
+  impacted_kpis: string[];
+  early_warning_signals: string[];
+}
+
+export interface ScenarioAnalysis {
+  scenarios: AdversarialScenario[];
+  // We keep thought_signature in the schema to maintain thinking visibility, 
+  // even if not explicitly in the prompt text example.
+  thought_signature?: string[]; 
+}
