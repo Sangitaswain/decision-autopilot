@@ -1,20 +1,31 @@
 import React, { useState } from 'react';
 import { InputForm } from './components/InputForm';
 import { Dashboard } from './components/Dashboard';
-import { decomposeDecision, generateScenarios } from './services/gemini';
-import { DecisionAnalysis, ScenarioAnalysis } from './types';
+import { decomposeDecision, generateScenarios, generateExperiments, synthesizeConfidence, simulateStakeholders } from './services/gemini';
+import { DecisionAnalysis, ScenarioAnalysis, ExperimentPlan, SynthesizerAnalysis, StakeholderAnalysis } from './types';
 import { AlertCircle } from 'lucide-react';
 
 const App: React.FC = () => {
   const [analysis, setAnalysis] = useState<DecisionAnalysis | null>(null);
   const [scenarios, setScenarios] = useState<ScenarioAnalysis | null>(null);
+  const [experiments, setExperiments] = useState<ExperimentPlan | null>(null);
+  const [synthesis, setSynthesis] = useState<SynthesizerAnalysis | null>(null);
+  const [stakeholders, setStakeholders] = useState<StakeholderAnalysis | null>(null);
+  
   const [isDecomposing, setIsDecomposing] = useState(false);
   const [isGeneratingScenarios, setIsGeneratingScenarios] = useState(false);
+  const [isGeneratingExperiments, setIsGeneratingExperiments] = useState(false);
+  const [isSynthesizing, setIsSynthesizing] = useState(false);
+  const [isSimulatingStakeholders, setIsSimulatingStakeholders] = useState(false);
+  
   const [error, setError] = useState<string | null>(null);
 
   const handleAnalyze = async (decision: string, context: string) => {
     setIsDecomposing(true);
     setScenarios(null);
+    setExperiments(null);
+    setSynthesis(null);
+    setStakeholders(null);
     setError(null);
     try {
       const result = await decomposeDecision(decision, context);
@@ -41,9 +52,57 @@ const App: React.FC = () => {
     }
   };
 
+  const handleGenerateExperiments = async () => {
+    if (!analysis || !scenarios) return;
+
+    setIsGeneratingExperiments(true);
+    setError(null);
+    try {
+      const result = await generateExperiments(analysis, scenarios);
+      setExperiments(result);
+    } catch (err: any) {
+      setError(err.message || "An unexpected error occurred while generating experiments.");
+    } finally {
+      setIsGeneratingExperiments(false);
+    }
+  };
+
+  const handleSynthesizeConfidence = async () => {
+    if (!analysis || !scenarios || !experiments) return;
+
+    setIsSynthesizing(true);
+    setError(null);
+    try {
+      const result = await synthesizeConfidence(analysis, scenarios, experiments);
+      setSynthesis(result);
+    } catch (err: any) {
+      setError(err.message || "An unexpected error occurred while synthesizing confidence.");
+    } finally {
+      setIsSynthesizing(false);
+    }
+  };
+
+  const handleSimulateStakeholders = async () => {
+    if (!analysis || !synthesis) return;
+
+    setIsSimulatingStakeholders(true);
+    setError(null);
+    try {
+      const result = await simulateStakeholders(analysis, synthesis);
+      setStakeholders(result);
+    } catch (err: any) {
+      setError(err.message || "An unexpected error occurred while simulating stakeholders.");
+    } finally {
+      setIsSimulatingStakeholders(false);
+    }
+  };
+
   const handleReset = () => {
     setAnalysis(null);
     setScenarios(null);
+    setExperiments(null);
+    setSynthesis(null);
+    setStakeholders(null);
     setError(null);
   };
 
@@ -78,9 +137,18 @@ const App: React.FC = () => {
           <Dashboard 
             analysis={analysis} 
             scenarios={scenarios}
+            experiments={experiments}
+            synthesis={synthesis}
+            stakeholders={stakeholders}
             onReset={handleReset} 
             onGenerateScenarios={handleGenerateScenarios}
+            onGenerateExperiments={handleGenerateExperiments}
+            onSynthesizeConfidence={handleSynthesizeConfidence}
+            onSimulateStakeholders={handleSimulateStakeholders}
             isGeneratingScenarios={isGeneratingScenarios}
+            isGeneratingExperiments={isGeneratingExperiments}
+            isSynthesizing={isSynthesizing}
+            isSimulatingStakeholders={isSimulatingStakeholders}
           />
         )}
       </div>

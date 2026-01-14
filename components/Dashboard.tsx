@@ -1,30 +1,75 @@
 import React, { useRef } from 'react';
-import { AlertTriangle, CheckCircle2, Target, Network, ScrollText, Fingerprint, RefreshCcw, Zap, Bot, ArrowDown } from 'lucide-react';
-import { DecisionAnalysis, Assumption, ImpactLevel, UncertaintyLevel, ScenarioAnalysis } from '../types';
+import { AlertTriangle, CheckCircle2, Target, Network, ScrollText, Fingerprint, RefreshCcw, Bot, ArrowDown, FlaskConical, Scale, Users } from 'lucide-react';
+import { DecisionAnalysis, Assumption, ImpactLevel, UncertaintyLevel, ScenarioAnalysis, ExperimentPlan, SynthesizerAnalysis, StakeholderAnalysis } from '../types';
 import { AssumptionMatrix } from './AssumptionMatrix';
 import { ScenarioList } from './ScenarioList';
+import { ExperimentList } from './ExperimentList';
+import { ConfidenceSummary } from './ConfidenceSummary';
+import { StakeholderReactions } from './StakeholderReactions';
 
 interface DashboardProps {
   analysis: DecisionAnalysis;
   scenarios: ScenarioAnalysis | null;
+  experiments: ExperimentPlan | null;
+  synthesis: SynthesizerAnalysis | null;
+  stakeholders: StakeholderAnalysis | null;
   onReset: () => void;
   onGenerateScenarios: () => void;
+  onGenerateExperiments: () => void;
+  onSynthesizeConfidence: () => void;
+  onSimulateStakeholders: () => void;
   isGeneratingScenarios: boolean;
+  isGeneratingExperiments: boolean;
+  isSynthesizing: boolean;
+  isSimulatingStakeholders: boolean;
 }
 
 export const Dashboard: React.FC<DashboardProps> = ({ 
   analysis, 
   scenarios, 
+  experiments,
+  synthesis,
+  stakeholders,
   onReset, 
   onGenerateScenarios,
-  isGeneratingScenarios
+  onGenerateExperiments,
+  onSynthesizeConfidence,
+  onSimulateStakeholders,
+  isGeneratingScenarios,
+  isGeneratingExperiments,
+  isSynthesizing,
+  isSimulatingStakeholders
 }) => {
   const scenariosRef = useRef<HTMLDivElement>(null);
+  const experimentsRef = useRef<HTMLDivElement>(null);
+  const synthesisRef = useRef<HTMLDivElement>(null);
+  const stakeholdersRef = useRef<HTMLDivElement>(null);
 
   const handleScrollToScenarios = () => {
     onGenerateScenarios();
     setTimeout(() => {
       scenariosRef.current?.scrollIntoView({ behavior: 'smooth' });
+    }, 100);
+  };
+
+  const handleScrollToExperiments = () => {
+    onGenerateExperiments();
+    setTimeout(() => {
+      experimentsRef.current?.scrollIntoView({ behavior: 'smooth' });
+    }, 100);
+  };
+
+  const handleScrollToSynthesis = () => {
+    onSynthesizeConfidence();
+    setTimeout(() => {
+      synthesisRef.current?.scrollIntoView({ behavior: 'smooth' });
+    }, 100);
+  };
+
+  const handleScrollToStakeholders = () => {
+    onSimulateStakeholders();
+    setTimeout(() => {
+        stakeholdersRef.current?.scrollIntoView({ behavior: 'smooth' });
     }, 100);
   };
 
@@ -229,7 +274,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
         </div>
       </div>
 
-      {/* HANDOFF / TRIGGER ZONE */}
+      {/* TRIGGER ZONE 1 */}
       <div className="flex flex-col items-center justify-center -my-4 relative z-10">
          <div className="h-8 w-px bg-slate-700"></div>
          {!scenarios && (
@@ -255,14 +300,6 @@ export const Dashboard: React.FC<DashboardProps> = ({
                     <ArrowDown className="w-5 h-5" />
                 </div>
              )}
-             
-             {/* Ping Effect */}
-             {!isGeneratingScenarios && (
-                 <span className="absolute -top-1 -right-1 flex h-3 w-3">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-75"></span>
-                    <span className="relative inline-flex rounded-full h-3 w-3 bg-indigo-500"></span>
-                </span>
-             )}
            </button>
          )}
          <div className="h-8 w-px bg-slate-700"></div>
@@ -277,12 +314,186 @@ export const Dashboard: React.FC<DashboardProps> = ({
                         <Bot className="w-4 h-4" />
                         AGENT 2 | ADVERSARIAL SCENARIO GENERATOR
                     </div>
+                    {experiments && (
+                        <span className="text-xs text-emerald-500 flex items-center gap-1">
+                            <CheckCircle2 className="w-3 h-3" /> Complete
+                        </span>
+                    )}
                 </div>
                 <div className="p-6 bg-slate-900/30">
                     <p className="text-slate-400 mb-6 max-w-3xl">
                         This agent has stress-tested the assumptions provided by Agent 1. It operates pessimistically to identify potential failure modes.
                     </p>
                     <ScenarioList scenarios={scenarios} />
+                </div>
+            </div>
+        )}
+      </div>
+
+      {/* TRIGGER ZONE 2 */}
+      {scenarios && (
+        <div className="flex flex-col items-center justify-center -my-4 relative z-10">
+          <div className="h-8 w-px bg-slate-700"></div>
+          {!experiments && (
+              <button
+              onClick={handleScrollToExperiments}
+              disabled={isGeneratingExperiments}
+              className={`
+                group relative flex items-center justify-center gap-4 px-8 py-4 
+                bg-slate-900 hover:bg-slate-800 text-white rounded-2xl border border-emerald-500/50
+                shadow-[0_0_30px_-5px_rgba(16,185,129,0.3)] transition-all active:scale-95
+                disabled:opacity-70 disabled:cursor-not-allowed w-full max-w-2xl
+              `}
+            >
+              <div className="flex flex-col items-start text-left">
+                  <span className="text-xs font-mono text-emerald-400 font-bold tracking-widest mb-1">FINAL STEP</span>
+                  <span className="font-bold text-lg">Design Validation Experiments</span>
+              </div>
+              
+              {isGeneratingExperiments ? (
+                  <div className="w-8 h-8 ml-auto border-2 border-emerald-500/30 border-t-emerald-500 rounded-full animate-spin" />
+              ) : (
+                  <div className="ml-auto bg-emerald-600 p-2 rounded-lg group-hover:bg-emerald-500 transition-colors">
+                      <FlaskConical className="w-5 h-5" />
+                  </div>
+              )}
+            </button>
+          )}
+          <div className="h-8 w-px bg-slate-700"></div>
+        </div>
+      )}
+
+      {/* AGENT 3 SECTION */}
+      <div ref={experimentsRef} className="scroll-mt-8">
+        {experiments && (
+            <div className="border border-emerald-900/50 rounded-2xl overflow-hidden mb-8 relative animate-fade-in-up">
+                 <div className="bg-slate-900/80 px-6 py-3 border-b border-emerald-900/50 flex justify-between items-center bg-gradient-to-r from-slate-900 to-emerald-950/30">
+                    <div className="flex items-center gap-2 text-emerald-300 font-mono text-sm font-bold tracking-wider">
+                        <Bot className="w-4 h-4" />
+                        AGENT 3 | EXPERIMENT PLANNER
+                    </div>
+                    {synthesis && (
+                        <span className="text-xs text-emerald-500 flex items-center gap-1">
+                            <CheckCircle2 className="w-3 h-3" /> Complete
+                        </span>
+                    )}
+                </div>
+                <div className="p-6 bg-slate-900/30">
+                    <p className="text-slate-400 mb-6 max-w-3xl">
+                      This agent has designed specific, actionable experiments to test the critical risks identified by Agent 2.
+                    </p>
+                    <ExperimentList plan={experiments} />
+                </div>
+            </div>
+        )}
+      </div>
+
+       {/* TRIGGER ZONE 3 (Synthesis) */}
+       {experiments && (
+        <div className="flex flex-col items-center justify-center -my-4 relative z-10">
+          <div className="h-8 w-px bg-slate-700"></div>
+          {!synthesis && (
+              <button
+              onClick={handleScrollToSynthesis}
+              disabled={isSynthesizing}
+              className={`
+                group relative flex items-center justify-center gap-4 px-8 py-4 
+                bg-slate-900 hover:bg-slate-800 text-white rounded-2xl border border-amber-500/50
+                shadow-[0_0_30px_-5px_rgba(245,158,11,0.3)] transition-all active:scale-95
+                disabled:opacity-70 disabled:cursor-not-allowed w-full max-w-2xl
+              `}
+            >
+              <div className="flex flex-col items-start text-left">
+                  <span className="text-xs font-mono text-amber-400 font-bold tracking-widest mb-1">EXECUTIVE SUMMARY</span>
+                  <span className="font-bold text-lg">Synthesize Final Verdict</span>
+              </div>
+              
+              {isSynthesizing ? (
+                  <div className="w-8 h-8 ml-auto border-2 border-amber-500/30 border-t-amber-500 rounded-full animate-spin" />
+              ) : (
+                  <div className="ml-auto bg-amber-600 p-2 rounded-lg group-hover:bg-amber-500 transition-colors">
+                      <Scale className="w-5 h-5" />
+                  </div>
+              )}
+            </button>
+          )}
+          <div className="h-8 w-px bg-slate-700"></div>
+        </div>
+      )}
+
+      {/* AGENT 4 SECTION */}
+      <div ref={synthesisRef} className="scroll-mt-8">
+        {synthesis && (
+            <div className="border border-amber-900/50 rounded-2xl overflow-hidden mb-8 relative animate-fade-in-up">
+                 <div className="bg-slate-900/80 px-6 py-3 border-b border-amber-900/50 flex justify-between items-center bg-gradient-to-r from-slate-900 to-amber-950/30">
+                    <div className="flex items-center gap-2 text-amber-300 font-mono text-sm font-bold tracking-wider">
+                        <Bot className="w-4 h-4" />
+                        AGENT 4 | CONFIDENCE SYNTHESIZER
+                    </div>
+                    {stakeholders && (
+                        <span className="text-xs text-emerald-500 flex items-center gap-1">
+                            <CheckCircle2 className="w-3 h-3" /> Complete
+                        </span>
+                    )}
+                </div>
+                <div className="p-6 bg-slate-900/30">
+                    <p className="text-slate-400 mb-6 max-w-3xl">
+                      Final executive synthesis based on decomposition, risks, and proposed experiments.
+                    </p>
+                    <ConfidenceSummary synthesis={synthesis} />
+                </div>
+            </div>
+        )}
+      </div>
+
+      {/* TRIGGER ZONE 4 (Stakeholders) */}
+      {synthesis && (
+        <div className="flex flex-col items-center justify-center -my-4 relative z-10">
+          <div className="h-8 w-px bg-slate-700"></div>
+          {!stakeholders && (
+              <button
+              onClick={handleScrollToStakeholders}
+              disabled={isSimulatingStakeholders}
+              className={`
+                group relative flex items-center justify-center gap-4 px-8 py-4 
+                bg-slate-900 hover:bg-slate-800 text-white rounded-2xl border border-rose-500/50
+                shadow-[0_0_30px_-5px_rgba(244,63,94,0.3)] transition-all active:scale-95
+                disabled:opacity-70 disabled:cursor-not-allowed w-full max-w-2xl
+              `}
+            >
+              <div className="flex flex-col items-start text-left">
+                  <span className="text-xs font-mono text-rose-400 font-bold tracking-widest mb-1">HUMAN LAYER</span>
+                  <span className="font-bold text-lg">Simulate Stakeholder Reactions</span>
+              </div>
+              
+              {isSimulatingStakeholders ? (
+                  <div className="w-8 h-8 ml-auto border-2 border-rose-500/30 border-t-rose-500 rounded-full animate-spin" />
+              ) : (
+                  <div className="ml-auto bg-rose-600 p-2 rounded-lg group-hover:bg-rose-500 transition-colors">
+                      <Users className="w-5 h-5" />
+                  </div>
+              )}
+            </button>
+          )}
+          <div className="h-8 w-px bg-slate-700"></div>
+        </div>
+      )}
+
+      {/* AGENT 5 SECTION */}
+      <div ref={stakeholdersRef} className="scroll-mt-8">
+        {stakeholders && (
+            <div className="border border-rose-900/50 rounded-2xl overflow-hidden mb-8 relative animate-fade-in-up">
+                 <div className="bg-slate-900/80 px-6 py-3 border-b border-rose-900/50 flex justify-between items-center bg-gradient-to-r from-slate-900 to-rose-950/30">
+                    <div className="flex items-center gap-2 text-rose-300 font-mono text-sm font-bold tracking-wider">
+                        <Bot className="w-4 h-4" />
+                        AGENT 5 | STAKEHOLDER SIMULATOR
+                    </div>
+                </div>
+                <div className="p-6 bg-slate-900/30">
+                    <p className="text-slate-400 mb-6 max-w-3xl">
+                      Simulated reactions from key political players within the organization.
+                    </p>
+                    <StakeholderReactions analysis={stakeholders} />
                 </div>
             </div>
         )}
