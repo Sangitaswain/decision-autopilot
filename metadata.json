@@ -1,0 +1,5 @@
+{
+  "name": "Decision Autopilot: Decomposer",
+  "description": "An autonomous decision orchestration system that decomposes high-stakes decisions into structured components using Gemini 3.",
+  "requestFramePermissions": []
+}
