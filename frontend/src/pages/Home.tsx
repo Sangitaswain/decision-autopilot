@@ -52,27 +52,27 @@ const Home: React.FC = () => {
             {/* HERO SECTION */}
             <section className="max-w-4xl mx-auto px-6 pt-24 pb-16 text-center relative z-10">
 
-                <h1 className="font-display text-5xl md:text-6xl font-bold tracking-tight mb-6 animate-slide-up">
-                    Decisions are hard.<br />
-                    <span className="text-accent">We make them think.</span>
+                <h1 className="font-sans text-5xl md:text-7xl font-bold tracking-tight mb-6 animate-slide-up leading-tight">
+                    Make high-stakes <span className="font-script italic text-gold font-normal">decisions</span><br />
+                    with <span className="text-white">confidence.</span>
                 </h1>
 
-                <p className="text-secondary text-lg md:text-xl max-w-2xl mx-auto mb-8 animate-fade-in">
-                    Decision Autopilot is a multi-agent AI system that breaks, attacks, and validates your decisions before you commit.
+                <p className="text-secondary text-lg md:text-xl max-w-2xl mx-auto mb-8 animate-fade-in font-normal leading-relaxed">
+                    Decision Autopilot is a multi-agent AI system that breaks, attacks, and validates your strategy before you commit.
                 </p>
 
                 <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
-                    <button className="bg-accent hover:scale-105 hover:glow-accent text-background font-display font-semibold px-8 py-4 rounded-lg transition-all duration-300">
+                    <button className="bg-white hover:bg-gray-100 text-black font-sans font-medium px-8 py-4 rounded-full transition-all duration-300 shadow-lg hover:shadow-xl hover:-translate-y-0.5">
                         Stress-test a decision
                     </button>
-                    <button className="border-2 border-border hover:border-accent text-primary hover:text-accent font-display font-semibold px-8 py-4 rounded-lg transition-all duration-300">
+                    <button className="border border-white/20 hover:border-white/40 hover:bg-white/5 text-primary font-sans font-medium px-8 py-4 rounded-full transition-all duration-300">
                         How it works
                     </button>
                 </div>
 
                 {/* Typing Animation */}
                 <div className="h-6 flex items-center justify-center">
-                    <p className="text-muted text-sm font-mono animate-pulse-glow">
+                    <p className="text-muted text-sm font-sans animate-pulse-glow">
                         {thoughts[currentThought]}
                     </p>
                 </div>
@@ -156,18 +156,18 @@ const Home: React.FC = () => {
             </section>
 
             {/* WHY THIS IS DIFFERENT */}
-            <section className="max-w-2xl mx-auto px-6 py-16 space-y-6 text-center relative z-10">
-                <div>
-                    <p className="text-secondary">Chatbots answer questions.</p>
-                    <p className="text-accent font-semibold">We challenge decisions.</p>
+            <section className="max-w-2xl mx-auto px-6 py-16 space-y-8 text-center relative z-10">
+                <div className="space-y-2">
+                    <p className="text-secondary text-lg">Chatbots answer questions.</p>
+                    <p className="font-script italic text-3xl text-gold">We challenge decisions.</p>
                 </div>
-                <div>
-                    <p className="text-secondary">Most tools predict.</p>
-                    <p className="text-accent font-semibold">We stress-test.</p>
+                <div className="space-y-2">
+                    <p className="text-secondary text-lg">Most tools predict.</p>
+                    <p className="font-script italic text-3xl text-gold">We stress-test.</p>
                 </div>
-                <div>
-                    <p className="text-secondary">Most AI explains.</p>
-                    <p className="text-accent font-semibold">We force action.</p>
+                <div className="space-y-2">
+                    <p className="text-secondary text-lg">Most AI explains.</p>
+                    <p className="font-script italic text-3xl text-gold">We force action.</p>
                 </div>
             </section>
 

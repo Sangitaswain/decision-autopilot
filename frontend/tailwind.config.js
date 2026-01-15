@@ -8,7 +8,7 @@ export default {
         extend: {
             fontFamily: {
                 sans: ['Inter', 'system-ui', 'sans-serif'],
-                display: ['"Space Grotesk"', 'system-ui', 'sans-serif'],
+                script: ['"Playfair Display"', 'serif'],
             },
             colors: {
                 background: '#020617',
@@ -18,6 +18,7 @@ export default {
                 secondary: '#9CA3AF',
                 muted: '#6B7280',
                 accent: '#22D3EE', // Electric Cyan
+                gold: '#F0B36E',   // Soft Gold for script
             },
             animation: {
                 'fade-in': 'fadeIn 0.4s ease-out',
