@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { BGPattern } from "@/components/ui/bg-pattern";
 
 const Home: React.FC = () => {
     const [currentThought, setCurrentThought] = useState(0);
@@ -14,23 +15,19 @@ const Home: React.FC = () => {
 
     const agents = [
         {
-            name: "Decision Input",
-            desc: "We capture your decision context and extract core variables."
-        },
-        {
-            name: "Decomposition Engine",
+            name: "Decompose",
             desc: "We break your decision into atomic claims, KPIs, and core assumptions."
         },
         {
-            name: "Adversarial Stress Test",
+            name: "Attack",
             desc: "We intentionally try to break your decision before reality does."
         },
         {
-            name: "Experiment Planner",
+            name: "Test",
             desc: "We design rapid experiments to validate critical uncertainties."
         },
         {
-            name: "Confidence Synthesizer",
+            name: "Decide",
             desc: "We synthesize evidence into a final verdict: Proceed, Pivot, or Abort."
         },
     ];
@@ -47,145 +44,70 @@ const Home: React.FC = () => {
     }, []);
 
     return (
-        <div className="min-h-screen bg-background text-primary font-sans">
+        <div className="min-h-screen bg-background text-primary font-sans relative">
 
-            {/* NAVBAR */}
-            <nav className="border-b border-border bg-background/90 backdrop-blur-sm sticky top-0 z-50">
-                <div className="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
-                    <span className="font-display font-bold text-lg">Decision Autopilot</span>
-                    <div className="flex gap-6 text-sm text-secondary">
-                        <a href="#" className="hover:text-accent transition-colors">Demo</a>
-                        <a href="#" className="hover:text-accent transition-colors">Docs</a>
-                        <a href="#" className="hover:text-accent transition-colors">GitHub</a>
-                    </div>
-                </div>
-            </nav>
+            {/* Background Pattern */}
+            <BGPattern variant="grid" mask="fade-edges" fill="#1E293B" size={32} />
 
-            {/* SYSTEM STATUS BAR */}
-            <div className="border-b border-border bg-surface/50">
-                <div className="max-w-6xl mx-auto px-6 py-3 flex flex-wrap gap-6 text-xs font-mono">
-                    <div className="flex items-center gap-2">
-                        <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
-                        <span className="text-muted">System:</span>
-                        <span className="text-accent">Active</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                        <span className="text-muted">Agents:</span>
-                        <span className="text-primary">4</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                        <span className="text-muted">Avg Decision Time:</span>
-                        <span className="text-primary">~12s</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                        <span className="text-muted">Mode:</span>
-                        <span className="text-accent">Demo</span>
-                    </div>
-                </div>
-            </div>
+            {/* HERO SECTION */}
+            <section className="max-w-4xl mx-auto px-6 pt-24 pb-16 text-center relative z-10">
 
-            {/* HERO + DECISION CARD */}
-            <section className="max-w-6xl mx-auto px-6 py-16 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <h1 className="font-display text-5xl md:text-6xl font-bold tracking-tight mb-6 animate-slide-up">
+                    Decisions are hard.<br />
+                    <span className="text-accent">We make them think.</span>
+                </h1>
 
-                {/* Left: Text + Motion */}
-                <div className="space-y-6">
-                    <h1 className="font-display text-5xl md:text-6xl font-bold tracking-tight leading-tight animate-slide-up">
-                        Before you decide,<br />
-                        <span className="text-accent">stress-test it.</span>
-                    </h1>
+                <p className="text-secondary text-lg md:text-xl max-w-2xl mx-auto mb-8 animate-fade-in">
+                    Decision Autopilot is a multi-agent AI system that breaks, attacks, and validates your decisions before you commit.
+                </p>
 
-                    <p className="text-secondary text-lg leading-relaxed">
-                        Decision Autopilot breaks your decisions, attacks them, and tells you what to do next.
-                    </p>
-
-                    {/* Typing Animation */}
-                    <div className="h-6 flex items-center">
-                        <p className="text-muted text-sm font-mono animate-pulse-glow">
-                            {thoughts[currentThought]}
-                        </p>
-                    </div>
-
+                <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
                     <button className="bg-accent hover:scale-105 hover:glow-accent text-background font-display font-semibold px-8 py-4 rounded-lg transition-all duration-300">
                         Stress-test a decision
                     </button>
+                    <button className="border-2 border-border hover:border-accent text-primary hover:text-accent font-display font-semibold px-8 py-4 rounded-lg transition-all duration-300">
+                        How it works
+                    </button>
                 </div>
 
-                {/* Right: BIG DECISION CARD */}
-                <div className="bg-surface border border-border rounded-2xl p-8 shadow-2xl animate-fade-in">
-                    <div className="flex items-center gap-2 mb-6">
-                        <div className="w-2 h-2 bg-accent rounded-full"></div>
-                        <span className="text-xs font-mono text-muted uppercase tracking-wider">Decision</span>
-                    </div>
-
-                    <p className="font-display text-xl md:text-2xl font-semibold text-primary mb-8 leading-snug">
-                        "Should I quit college to build an AI startup?"
+                {/* Typing Animation */}
+                <div className="h-6 flex items-center justify-center">
+                    <p className="text-muted text-sm font-mono animate-pulse-glow">
+                        {thoughts[currentThought]}
                     </p>
-
-                    <div className="border-t border-border pt-6 mb-6">
-                        <p className="text-xs text-muted uppercase tracking-wider mb-4">Signals Detected</p>
-                        <div className="space-y-2 text-sm">
-                            <p className="flex justify-between">
-                                <span className="text-secondary">• Assumptions:</span>
-                                <span className="text-primary font-semibold">7</span>
-                            </p>
-                            <p className="flex justify-between">
-                                <span className="text-secondary">• Risks:</span>
-                                <span className="text-accent font-semibold">3 (1 High)</span>
-                            </p>
-                            <p className="flex justify-between">
-                                <span className="text-secondary">• Uncertainty:</span>
-                                <span className="text-primary font-semibold">68%</span>
-                            </p>
-                        </div>
-                    </div>
-
-                    <div className="border-t border-border pt-6">
-                        <p className="text-xs text-muted uppercase tracking-wider mb-3">System Recommendation</p>
-                        <div className="flex items-center justify-between">
-                            <div className="flex items-center gap-3">
-                                <span className="text-accent text-2xl">→</span>
-                                <span className="font-display text-3xl font-bold text-accent">DELAY</span>
-                            </div>
-                            <div className="text-right">
-                                <p className="text-xs text-muted">Confidence</p>
-                                <p className="font-display text-2xl font-bold text-primary">72%</p>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </section>
 
-            {/* AGENT PIPELINE MODULE */}
-            <section className="max-w-2xl mx-auto px-6 py-16">
-                <p className="text-xs text-muted uppercase tracking-wider text-center mb-8">System Pipeline</p>
-
-                <div className="flex flex-col items-center gap-3">
-                    {agents.map((agent, i, arr) => (
-                        <React.Fragment key={i}>
-                            <div
-                                onMouseEnter={() => setAgentHover(i)}
-                                onMouseLeave={() => setAgentHover(null)}
-                                className={`
-                                    bg-surface border rounded-xl px-6 py-4 text-center w-full max-w-md cursor-pointer
-                                    transition-all duration-300
-                                    ${agentHover === i
-                                        ? 'border-accent scale-105 glow-accent'
-                                        : 'border-border'}
-                                `}
-                            >
-                                <span className="font-display font-semibold text-primary text-sm">
-                                    {agent.name}
-                                </span>
-                            </div>
-                            {i < arr.length - 1 && (
-                                <div className="text-muted text-xl">↓</div>
+            {/* INTERACTIVE AGENT STRIP */}
+            <section className="max-w-5xl mx-auto px-6 py-16 relative z-10">
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
+                    {agents.map((agent, i) => (
+                        <div
+                            key={i}
+                            onMouseEnter={() => setAgentHover(i)}
+                            onMouseLeave={() => setAgentHover(null)}
+                            className={`
+                                bg-surface border border-border rounded-xl p-4 text-center cursor-pointer
+                                transition-all duration-300 relative overflow-hidden
+                                ${agentHover === i
+                                    ? 'border-accent scale-105 glow-accent'
+                                    : agentHover !== null ? 'opacity-60' : 'opacity-100'}
+                            `}
+                        >
+                            <span className="font-display font-semibold text-primary">
+                                {agent.name}
+                            </span>
+                            {i < agents.length - 1 && (
+                                <div className="hidden md:block absolute -right-2 top-1/2 -translate-y-1/2 text-muted">
+                                    →
+                                </div>
                             )}
-                        </React.Fragment>
+                        </div>
                     ))}
                 </div>
 
                 {/* Agent Description */}
-                <div className="min-h-[60px] flex items-center justify-center mt-8">
+                <div className="min-h-[60px] flex items-center justify-center">
                     {agentHover !== null && (
                         <p className="text-secondary text-sm text-center max-w-md animate-fade-in">
                             <span className="text-accent font-semibold">{agents[agentHover].name}:</span>{" "}
@@ -195,97 +117,62 @@ const Home: React.FC = () => {
                 </div>
             </section>
 
-            {/* LIVE SIGNALS PANEL */}
-            <section className="max-w-4xl mx-auto px-6 py-16">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    {/* Card 1 */}
-                    <div className="bg-surface border border-border rounded-xl p-6 text-center">
-                        <p className="text-xs text-muted uppercase tracking-wider mb-3">Assumptions</p>
-                        <div className="w-full h-2 bg-background rounded-full overflow-hidden mb-3">
-                            <div
-                                className={`h-full bg-accent rounded-full transition-all duration-1000 ${barsAnimated ? 'w-[87.5%]' : 'w-0'}`}
-                            ></div>
-                        </div>
-                        <p className="font-display text-3xl font-bold text-primary">7</p>
-                        <p className="text-xs text-muted mt-1">detected</p>
-                    </div>
-
-                    {/* Card 2 */}
-                    <div className="bg-surface border border-border rounded-xl p-6 text-center">
-                        <p className="text-xs text-muted uppercase tracking-wider mb-3">Risk Exposure</p>
-                        <div className="w-full h-2 bg-background rounded-full overflow-hidden mb-3">
-                            <div
-                                className={`h-full bg-accent rounded-full transition-all duration-1000 ${barsAnimated ? 'w-[50%]' : 'w-0'}`}
-                            ></div>
-                        </div>
-                        <p className="font-display text-3xl font-bold text-accent">3</p>
-                        <p className="text-xs text-muted mt-1">High: 1</p>
-                    </div>
-
-                    {/* Card 3 */}
-                    <div className="bg-surface border border-border rounded-xl p-6 text-center">
-                        <p className="text-xs text-muted uppercase tracking-wider mb-3">Decision Confidence</p>
-                        <div className="w-full h-2 bg-background rounded-full overflow-hidden mb-3">
-                            <div
-                                className={`h-full bg-accent rounded-full transition-all duration-1000 ${barsAnimated ? 'w-[72%]' : 'w-0'}`}
-                            ></div>
-                        </div>
-                        <p className="font-display text-3xl font-bold text-primary">72%</p>
-                        <p className="text-xs text-muted mt-1">confidence</p>
-                    </div>
-                </div>
-            </section>
-
-            {/* DIFFERENTIATION BLOCK */}
-            <section className="max-w-4xl mx-auto px-6 py-16">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    {/* Left */}
-                    <div className="bg-surface/50 border border-border rounded-xl p-6">
-                        <p className="font-display font-semibold text-lg mb-4 text-secondary">Typical AI Tools</p>
-                        <ul className="space-y-2 text-sm text-secondary">
-                            <li>• Answer questions</li>
-                            <li>• Reactive</li>
-                            <li>• No memory</li>
-                        </ul>
-                    </div>
-
-                    {/* Right */}
-                    <div className="bg-surface border border-accent/30 rounded-xl p-6">
-                        <p className="font-display font-semibold text-lg mb-4 text-accent">Decision Autopilot</p>
-                        <ul className="space-y-2 text-sm text-primary">
-                            <li>• Challenges decisions</li>
-                            <li>• Proactive</li>
-                            <li>• Multi-agent reasoning</li>
-                        </ul>
-                    </div>
-                </div>
-            </section>
-
-            {/* MICRO DEMO INPUT */}
-            <section className="max-w-3xl mx-auto px-6 py-16">
+            {/* FAKE DEMO SECTION */}
+            <section className="max-w-3xl mx-auto px-6 py-16 relative z-10">
                 <p className="text-center text-muted text-xs uppercase tracking-wider mb-6">Try it in 10 seconds</p>
 
                 <div className="bg-surface border border-border rounded-2xl p-8 space-y-6">
-                    {/* Input */}
+                    {/* Fake Input */}
                     <div>
-                        <p className="text-xs text-muted uppercase tracking-wider mb-3">Type a decision ↓</p>
-                        <div className="bg-background border border-accent/30 rounded-lg p-4 font-mono text-sm flex items-center gap-2">
+                        <p className="text-xs text-muted uppercase tracking-wider mb-2">Type a decision ↓</p>
+                        <div className="bg-background border border-border rounded-lg p-4 font-mono text-sm flex items-center gap-2">
                             <span className="text-primary">Should I quit college to build an AI startup?</span>
                             <span className="text-accent animate-pulse">▍</span>
                         </div>
                     </div>
 
-                    {/* Output */}
-                    <div className="space-y-2 text-sm font-mono">
-                        <p className="text-accent">→ Assumptions detected: 7</p>
-                        <p className="text-accent">→ High-risk factors: 3</p>
-                        <p className="text-accent">→ Recommendation: DELAY</p>
+                    {/* Fake Results */}
+                    <div className="grid grid-cols-3 gap-4">
+                        <div className="text-center">
+                            <p className="text-xs text-muted uppercase tracking-wider mb-1">Assumptions</p>
+                            <p className="font-display text-4xl font-bold text-primary">7</p>
+                        </div>
+                        <div className="text-center">
+                            <p className="text-xs text-muted uppercase tracking-wider mb-1">High-Risk</p>
+                            <p className="font-display text-4xl font-bold text-accent">3</p>
+                        </div>
+                        <div className="text-center">
+                            <p className="text-xs text-muted uppercase tracking-wider mb-1">Confidence</p>
+                            <p className="font-display text-4xl font-bold text-primary">72%</p>
+                        </div>
+                    </div>
+
+                    {/* Verdict */}
+                    <div className="border-t border-border pt-6">
+                        <p className="text-xs text-muted uppercase tracking-wider text-center mb-2">System Recommendation</p>
+                        <p className="font-display text-3xl font-bold text-accent text-center">DELAY</p>
                     </div>
                 </div>
             </section>
 
+            {/* WHY THIS IS DIFFERENT */}
+            <section className="max-w-2xl mx-auto px-6 py-16 space-y-6 text-center relative z-10">
+                <div>
+                    <p className="text-secondary">Chatbots answer questions.</p>
+                    <p className="text-accent font-semibold">We challenge decisions.</p>
+                </div>
+                <div>
+                    <p className="text-secondary">Most tools predict.</p>
+                    <p className="text-accent font-semibold">We stress-test.</p>
+                </div>
+                <div>
+                    <p className="text-secondary">Most AI explains.</p>
+                    <p className="text-accent font-semibold">We force action.</p>
+                </div>
+            </section>
+
             {/* FINAL CTA */}
-            <section className="max-w-xl mx-auto px-6 py-16 text-center">
+            <section className="max-w-xl mx-auto px-6 py-16 text-center relative z-10">
                 <p className="text-primary text-2xl font-display font-semibold mb-6">
                     Ready to break your next decision?
                 </p>
@@ -295,8 +182,8 @@ const Home: React.FC = () => {
             </section>
 
             {/* Footer */}
-            <footer className="border-t border-border mt-16">
-                <div className="max-w-6xl mx-auto px-6 py-8 text-center">
+            <footer className="border-t border-border mt-16 relative z-10">
+                <div className="max-w-5xl mx-auto px-6 py-8 text-center">
                     <p className="text-xs text-muted">
                         Decision Autopilot — Multi-Agent Decision Intelligence
                     </p>
