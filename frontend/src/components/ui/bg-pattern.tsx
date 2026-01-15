@@ -1,5 +1,6 @@
 import React from 'react';
 import { cn } from '@/lib/utils';
+import { motion } from 'framer-motion';
 
 type BGVariantType = 'dots' | 'diagonal-stripes' | 'grid' | 'horizontal-lines' | 'vertical-lines' | 'checkerboard';
 type BGMaskType =
@@ -64,14 +65,23 @@ const BGPattern = ({
     const backgroundImage = geBgImage(variant, fill, size);
 
     return (
-        <div
+        <motion.div
+            animate={{
+                backgroundPosition: ['0px 0px', '2px 2px', '0px 0px'],
+                opacity: [0.3, 0.4, 0.3]
+            }}
+            transition={{
+                duration: 15,
+                repeat: Infinity,
+                ease: 'linear'
+            }}
             className={cn('absolute inset-0 z-[-10] size-full', maskClasses[mask], className)}
             style={{
                 backgroundImage,
                 backgroundSize: bgSize,
                 ...style,
             }}
-            {...props}
+            {...props as any}
         />
     );
 };

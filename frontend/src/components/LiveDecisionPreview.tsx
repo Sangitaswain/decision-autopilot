@@ -84,13 +84,39 @@ export default function LiveDecisionPreview() {
     ];
 
     return (
-        <motion.div 
-            // Layer 1: Card Activation
-            initial={{ opacity: 0, scale: 0.985 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.4, ease: "easeOut" }}
-            className="flex flex-col max-w-lg w-full bg-surface/60 backdrop-blur-2xl border border-white/10 rounded-3xl p-8 shadow-[0_0_40px_-12px_rgba(79,70,229,0.15)] relative overflow-hidden group"
-        >
+        <div className="relative">
+            {/* Breathing outer glow */}
+            <motion.div
+                animate={{
+                    opacity: [0.3, 0.6, 0.3],
+                    scale: [1, 1.02, 1]
+                }}
+                transition={{
+                    duration: 4,
+                    repeat: Infinity,
+                    ease: "easeInOut"
+                }}
+                className="absolute inset-0 bg-blue-500/20 blur-[60px] rounded-full pointer-events-none"
+            />
+            <motion.div 
+                // Layer 1: Card Activation
+                initial={{ opacity: 0, scale: 0.985 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.4, ease: "easeOut" }}
+                className="flex flex-col max-w-lg w-full bg-surface/60 backdrop-blur-2xl rounded-3xl p-8 shadow-[0_0_40px_-12px_rgba(79,70,229,0.15)] relative overflow-hidden group"
+            >
+                {/* Breathing border */}
+                <motion.div
+                    animate={{
+                        opacity: [0.1, 0.3, 0.1]
+                    }}
+                    transition={{
+                        duration: 4,
+                        repeat: Infinity,
+                        ease: "easeInOut"
+                    }}
+                    className="absolute inset-0 rounded-3xl border border-white/20 pointer-events-none"
+                />
             
             {/* Aesthetic: Inner Radial Gradient for Depth */}
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(255,255,255,0.08),transparent_50%)] pointer-events-none" />
@@ -111,13 +137,6 @@ export default function LiveDecisionPreview() {
                 className="absolute left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-cyan-400/20 to-transparent pointer-events-none z-0"
             />
 
-            {/* One-time Border Glow Pulse */}
-            <motion.div 
-                initial={{ opacity: 0 }}
-                animate={{ opacity: [0, 0.4, 0] }}
-                transition={{ duration: 0.7, delay: 0.2 }}
-                className="absolute inset-0 rounded-3xl border-2 border-amber-500/50 pointer-events-none"
-            />
 
             {/* Micro-Status Text (Top Right) */}
             <div className="absolute top-6 right-8 h-6 flex items-center justify-end overflow-hidden z-20">
@@ -209,6 +228,7 @@ export default function LiveDecisionPreview() {
                 </div>
             </motion.div>
 
-        </motion.div>
+            </motion.div>
+        </div>
     );
 }

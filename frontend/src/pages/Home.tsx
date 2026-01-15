@@ -54,12 +54,27 @@ const Home: React.FC = () => {
     const AgentItem = ({ agent, index, activeIndex }: { agent: any, index: number, activeIndex: number }) => {
         const isActive = index === activeIndex;
         return (
-            <div className={`p-4 rounded-lg transition-all duration-500 border border-transparent ${isActive ? 'bg-surface border-white/5' : 'opacity-40'}`}>
+            <motion.div 
+                animate={{
+                    opacity: isActive ? 1 : 0.3,
+                    filter: isActive ? 'blur(0px)' : 'blur(0.5px)',
+                    scale: isActive ? 1 : 0.98
+                }}
+                transition={{ duration: 0.4, ease: "easeOut" }}
+                className={`p-4 rounded-lg transition-all duration-500 border relative ${isActive ? 'bg-surface/80 border-white/10' : 'border-transparent'}`}
+            >
+                {isActive && (
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 0.15 }}
+                        className="absolute inset-0 bg-gold/20 blur-xl rounded-lg -z-10"
+                    />
+                )}
                 <div className="flex items-center gap-3">
-                    <span className={`font-mono text-xs ${isActive ? 'text-gold' : 'text-muted'}`}>0{index + 1}</span>
-                    <span className={`font-sans font-medium ${isActive ? 'text-primary' : 'text-secondary'}`}>{agent.name}</span>
+                    <span className={`font-mono text-xs transition-colors duration-300 ${isActive ? 'text-gold' : 'text-muted'}`}>0{index + 1}</span>
+                    <span className={`font-sans font-medium transition-colors duration-300 ${isActive ? 'text-primary' : 'text-secondary'}`}>{agent.name}</span>
                 </div>
-            </div>
+            </motion.div>
         );
     };
 
@@ -75,14 +90,42 @@ const Home: React.FC = () => {
 
                     {/* Left: Marketing */}
                     <div className="text-center lg:text-left">
-                        <h1 className="font-sans text-5xl md:text-7xl font-bold tracking-tight mb-6 animate-slide-up leading-tight">
-                            Make high-stakes <span className="font-script italic text-gold font-normal">decisions</span><br />
-                            with <span className="text-white">confidence.</span>
+                        <h1 className="font-sans text-5xl md:text-7xl font-bold tracking-tight mb-6 leading-tight">
+                            <motion.span
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 0.5, delay: 0.1 }}
+                                className="inline-block"
+                            >
+                                Make high-stakes{" "}
+                            </motion.span>
+                            <motion.span
+                                initial={{ opacity: 0, x: -20 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                transition={{ duration: 0.5, delay: 0.3 }}
+                                className="font-script italic text-gold font-normal inline-block"
+                            >
+                                decisions
+                            </motion.span>
+                            <br />
+                            <motion.span
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 0.5, delay: 0.5 }}
+                                className="inline-block"
+                            >
+                                with <span className="text-white">confidence.</span>
+                            </motion.span>
                         </h1>
 
-                        <p className="text-secondary text-lg md:text-xl max-w-2xl mx-auto lg:mx-0 mb-8 animate-fade-in font-normal leading-relaxed">
+                        <motion.p 
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            transition={{ duration: 0.6, delay: 0.7 }}
+                            className="text-secondary text-lg md:text-xl max-w-2xl mx-auto lg:mx-0 mb-8 font-normal leading-relaxed"
+                        >
                             Decision Autopilot is a multi-agent AI system that breaks, attacks, and validates your strategy before you commit.
-                        </p>
+                        </motion.p>
 
                         <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start mb-8">
                             <button className="bg-white hover:bg-gray-100 text-black font-sans font-medium px-8 py-4 rounded-full transition-all duration-300 shadow-lg hover:shadow-xl hover:-translate-y-0.5">
@@ -121,18 +164,47 @@ const Home: React.FC = () => {
                         {agents.map((agent, i) => (
                             <motion.div
                                 key={i}
-                                initial={{ opacity: 0.2 }}
-                                whileInView={{ opacity: 1 }}
+                                initial={{ opacity: 0.2, x: 20 }}
+                                whileInView={{ opacity: 1, x: 0 }}
                                 viewport={{ margin: "-20% 0px -20% 0px", amount: 0.6 }}
                                 onViewportEnter={() => setActiveAgentIndex(i)}
+                                transition={{ duration: 0.5, ease: "easeOut" }}
                                 className="min-h-[200px] flex flex-col justify-center"
                             >
-                                <div className="h-px w-12 bg-gold/50 mb-4"></div>
-                                <h3 className="font-display text-2xl font-bold text-primary mb-3 text-glow">{agent.name}</h3>
-                                <p className="text-secondary text-lg leading-relaxed mb-4">{agent.desc}</p>
-                                <p className="font-mono text-xs text-gold/80 bg-gold/5 px-3 py-1.5 rounded w-fit border border-gold/10">
+                                <motion.div 
+                                    initial={{ scaleX: 0 }}
+                                    whileInView={{ scaleX: 1 }}
+                                    viewport={{ margin: "-20% 0px -20% 0px", amount: 0.6 }}
+                                    transition={{ duration: 0.4, delay: 0.1 }}
+                                    className="h-px w-12 bg-gold/50 mb-4 origin-left"
+                                />
+                                <motion.h3 
+                                    initial={{ opacity: 0, y: 10 }}
+                                    whileInView={{ opacity: 1, y: 0 }}
+                                    viewport={{ margin: "-20% 0px -20% 0px", amount: 0.6 }}
+                                    transition={{ duration: 0.5, delay: 0.2 }}
+                                    className="font-display text-2xl font-bold text-primary mb-3"
+                                >
+                                    {agent.name}
+                                </motion.h3>
+                                <motion.p 
+                                    initial={{ opacity: 0, y: 10 }}
+                                    whileInView={{ opacity: 1, y: 0 }}
+                                    viewport={{ margin: "-20% 0px -20% 0px", amount: 0.6 }}
+                                    transition={{ duration: 0.5, delay: 0.3 }}
+                                    className="text-secondary text-lg leading-relaxed mb-4"
+                                >
+                                    {agent.desc}
+                                </motion.p>
+                                <motion.p 
+                                    initial={{ opacity: 0, scale: 0.95 }}
+                                    whileInView={{ opacity: 1, scale: 1 }}
+                                    viewport={{ margin: "-20% 0px -20% 0px", amount: 0.6 }}
+                                    transition={{ duration: 0.4, delay: 0.4 }}
+                                    className="font-mono text-xs text-gold/80 bg-gold/5 px-3 py-1.5 rounded w-fit border border-gold/10"
+                                >
                                     Output: {agent.output}
-                                </p>
+                                </motion.p>
                             </motion.div>
                         ))}
                     </div>
@@ -144,29 +216,50 @@ const Home: React.FC = () => {
             <DemoSection />
 
             {/* WHY THIS IS DIFFERENT */}
-            <section className="max-w-2xl mx-auto px-6 py-16 space-y-8 text-center relative z-10">
-                <div className="space-y-2">
-                    <p className="text-secondary text-lg">Chatbots answer questions.</p>
-                    <p className="font-script italic text-3xl text-gold">We challenge decisions.</p>
-                </div>
-                <div className="space-y-2">
-                    <p className="text-secondary text-lg">Most tools predict.</p>
-                    <p className="font-script italic text-3xl text-gold">We stress-test.</p>
-                </div>
-                <div className="space-y-2">
-                    <p className="text-secondary text-lg">Most AI explains.</p>
-                    <p className="font-script italic text-3xl text-gold">We force action.</p>
-                </div>
-            </section>
+            <DifferentiatorSection />
 
             {/* FINAL CTA */}
             <section className="max-w-xl mx-auto px-6 py-16 text-center relative z-10">
-                <p className="text-primary text-2xl font-display font-semibold mb-6">
+                <motion.p 
+                    initial={{ opacity: 0 }}
+                    whileInView={{ opacity: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.6 }}
+                    className="text-primary text-2xl font-display font-semibold mb-6"
+                >
                     Ready to break your next decision?
-                </p>
-                <button className="bg-accent hover:scale-105 hover:glow-accent text-background font-display font-bold px-10 py-5 rounded-lg transition-all duration-300 text-lg">
-                    Launch Decision Autopilot
-                </button>
+                </motion.p>
+                <motion.button 
+                    initial={{ opacity: 0, y: 10 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    whileHover={{ 
+                        scale: 1.05,
+                        boxShadow: "0 0 30px rgba(251, 146, 60, 0.4)",
+                        backgroundColor: "rgba(251, 146, 60, 1)"
+                    }}
+                    animate={{
+                        boxShadow: [
+                            "0 0 0px rgba(251, 146, 60, 0)",
+                            "0 0 20px rgba(251, 146, 60, 0.3)",
+                            "0 0 0px rgba(251, 146, 60, 0)"
+                        ]
+                    }}
+                    transition={{
+                        duration: 0.6,
+                        delay: 0.2,
+                        boxShadow: {
+                            duration: 3,
+                            repeat: Infinity,
+                            repeatDelay: 5
+                        }
+                    }}
+                    className="bg-accent text-background font-display font-bold px-10 py-5 rounded-lg text-lg relative group"
+                >
+                    <span className="relative z-10 group-hover:translate-x-0.5 inline-block transition-transform duration-200">
+                        Start Now
+                    </span>
+                </motion.button>
             </section>
 
             {/* Footer */}
@@ -180,6 +273,50 @@ const Home: React.FC = () => {
         </div>
     );
 };
+
+function DifferentiatorSection() {
+    const [currentIndex, setCurrentIndex] = useState(0);
+
+    const messages = [
+        { context: "Chatbots answer questions.", statement: "We challenge decisions." },
+        { context: "Most tools predict.", statement: "We stress-test." },
+        { context: "Most AI explains.", statement: "We force action." }
+    ];
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setCurrentIndex(prev => (prev + 1) % messages.length);
+        }, 4000);
+        return () => clearInterval(interval);
+    }, []);
+
+    return (
+        <section className="max-w-2xl mx-auto px-6 py-16 text-center relative z-10 h-48 flex items-center justify-center">
+            <div className="space-y-3">
+                <motion.p 
+                    key={`context-${currentIndex}`}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 0.7, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    transition={{ duration: 0.5 }}
+                    className="text-secondary text-lg"
+                >
+                    {messages[currentIndex].context}
+                </motion.p>
+                <motion.p 
+                    key={`statement-${currentIndex}`}
+                    initial={{ opacity: 0, scale: 0.95, y: 10 }}
+                    animate={{ opacity: 1, scale: 1, y: 0 }}
+                    exit={{ opacity: 0, scale: 0.95, y: -10 }}
+                    transition={{ duration: 0.6, delay: 0.2 }}
+                    className="font-script italic text-3xl text-gold"
+                >
+                    {messages[currentIndex].statement}
+                </motion.p>
+            </div>
+        </section>
+    );
+}
 
 function DemoSection() {
     const [displayText, setDisplayText] = useState("");
