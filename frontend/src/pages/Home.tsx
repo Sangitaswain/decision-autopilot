@@ -141,42 +141,7 @@ const Home: React.FC = () => {
             </section>
 
             {/* FAKE DEMO SECTION */}
-            <section className="max-w-3xl mx-auto px-6 py-16 relative z-10">
-                <p className="text-center text-muted text-xs uppercase tracking-wider mb-6">Try it in 10 seconds</p>
-
-                <div className="bg-surface border border-border rounded-2xl p-8 space-y-6">
-                    {/* Fake Input */}
-                    <div>
-                        <p className="text-xs text-muted uppercase tracking-wider mb-2">Type a decision ↓</p>
-                        <div className="bg-background border border-border rounded-lg p-4 font-mono text-sm flex items-center gap-2">
-                            <span className="text-primary">Should I quit college to build an AI startup?</span>
-                            <span className="text-accent animate-pulse">▍</span>
-                        </div>
-                    </div>
-
-                    {/* Fake Results */}
-                    <div className="grid grid-cols-3 gap-4">
-                        <div className="text-center">
-                            <p className="text-xs text-muted uppercase tracking-wider mb-1">Assumptions</p>
-                            <p className="font-display text-4xl font-bold text-primary">7</p>
-                        </div>
-                        <div className="text-center">
-                            <p className="text-xs text-muted uppercase tracking-wider mb-1">High-Risk</p>
-                            <p className="font-display text-4xl font-bold text-accent">3</p>
-                        </div>
-                        <div className="text-center">
-                            <p className="text-xs text-muted uppercase tracking-wider mb-1">Confidence</p>
-                            <p className="font-display text-4xl font-bold text-primary">72%</p>
-                        </div>
-                    </div>
-
-                    {/* Verdict */}
-                    <div className="border-t border-border pt-6">
-                        <p className="text-xs text-muted uppercase tracking-wider text-center mb-2">System Recommendation</p>
-                        <p className="font-display text-3xl font-bold text-accent text-center">DELAY</p>
-                    </div>
-                </div>
-            </section>
+            <DemoSection />
 
             {/* WHY THIS IS DIFFERENT */}
             <section className="max-w-2xl mx-auto px-6 py-16 space-y-8 text-center relative z-10">
@@ -215,5 +180,248 @@ const Home: React.FC = () => {
         </div>
     );
 };
+
+function DemoSection() {
+    const [displayText, setDisplayText] = useState("");
+    const [showCursor, setShowCursor] = useState(true);
+    const [assumptionsCount, setAssumptionsCount] = useState(0);
+    const [riskCount, setRiskCount] = useState(0);
+    const [confidenceCount, setConfidenceCount] = useState(0);
+    const [step, setStep] = useState(0);
+    const [statusIndex, setStatusIndex] = useState(0);
+
+    const statusMessages = [
+        "Monitoring assumptions...",
+        "Re-evaluating risk...",
+        "Tracking confidence...",
+        "Validating verdict..."
+    ];
+
+    const fullText = "Should I quit college to build an AI startup?";
+
+    useEffect(() => {
+        const runSequence = async () => {
+            // Reset state
+            setDisplayText("");
+            setAssumptionsCount(0);
+            setRiskCount(0);
+            setConfidenceCount(0);
+            setStep(0);
+
+            await new Promise(r => setTimeout(r, 500));
+            for (let i = 0; i <= fullText.length; i++) {
+                setDisplayText(fullText.slice(0, i));
+                await new Promise(r => setTimeout(r, 20));
+            }
+            setStep(1);
+
+            await new Promise(r => setTimeout(r, 400));
+            setStep(2);
+            
+            const assumptionDuration = 500;
+            const assumptionStart = Date.now();
+            const animateAssumptions = () => {
+                const now = Date.now();
+                const progress = Math.min((now - assumptionStart) / assumptionDuration, 1);
+                setAssumptionsCount(Math.floor(progress * 7));
+                if (progress < 1) requestAnimationFrame(animateAssumptions);
+            };
+            requestAnimationFrame(animateAssumptions);
+
+            await new Promise(r => setTimeout(r, 200));
+            const riskDuration = 400;
+            const riskStart = Date.now();
+            const animateRisk = () => {
+                const now = Date.now();
+                const progress = Math.min((now - riskStart) / riskDuration, 1);
+                setRiskCount(Math.floor(progress * 3));
+                if (progress < 1) requestAnimationFrame(animateRisk);
+            };
+            requestAnimationFrame(animateRisk);
+
+            await new Promise(r => setTimeout(r, 200));
+            const confDuration = 800;
+            const confStart = Date.now();
+            const animateConf = () => {
+                const now = Date.now();
+                const progress = Math.min((now - confStart) / confDuration, 1);
+                setConfidenceCount(61 + Math.floor(progress * (72 - 61)));
+                if (progress < 1) requestAnimationFrame(animateConf);
+            };
+            requestAnimationFrame(animateConf);
+
+            await new Promise(r => setTimeout(r, 1200));
+            setStep(3);
+
+            // Hold verdict for 3 seconds, then loop
+            await new Promise(r => setTimeout(r, 3000));
+            runSequence();
+        };
+
+        runSequence();
+    }, []);
+
+    useEffect(() => {
+        const interval = setInterval(() => setShowCursor(prev => !prev), 500);
+        return () => clearInterval(interval);
+    }, []);
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setStatusIndex(prev => (prev + 1) % statusMessages.length);
+        }, 3000);
+        return () => clearInterval(interval);
+    }, []);
+
+    return (
+        <section className="max-w-3xl mx-auto px-6 py-16 relative z-10">
+            <p className="text-center text-muted text-xs uppercase tracking-wider mb-6">Try it in 10 seconds</p>
+
+            <div className="bg-surface border border-border rounded-2xl p-8 space-y-6 relative">
+                {/* Top-right status indicator */}
+                <motion.div 
+                    className="absolute top-4 right-4 text-[9px] text-muted uppercase tracking-wider font-mono"
+                    key={statusIndex}
+                    initial={{ opacity: 0, y: -5 }}
+                    animate={{ opacity: 0.5, y: 0 }}
+                    exit={{ opacity: 0, y: 5 }}
+                    transition={{ duration: 0.4 }}
+                >
+                    {statusMessages[statusIndex]}
+                </motion.div>
+                {/* Animated Input */}
+                <div>
+                    <p className="text-xs text-muted uppercase tracking-wider mb-2">Type a decision ↓</p>
+                    <div className="bg-background border border-border rounded-lg p-4 font-mono text-sm flex items-center gap-2">
+                        <span className="text-primary">{displayText}</span>
+                        <span className={`text-accent transition-opacity duration-100 ${showCursor ? 'opacity-100' : 'opacity-0'}`}>▍</span>
+                    </div>
+                </div>
+
+                {/* Animated Results */}
+                <div className="grid grid-cols-3 gap-4">
+                    <div className="text-center">
+                        <p className="text-xs text-muted uppercase tracking-wider mb-1">Assumptions</p>
+                        <motion.p 
+                            animate={{ scale: step >= 2 ? [1, 1.1, 1] : 1 }}
+                            transition={{ duration: 0.3 }}
+                            className="font-display text-4xl font-bold text-primary"
+                        >
+                            {step >= 2 ? assumptionsCount : 0}
+                        </motion.p>
+                        <motion.p 
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: step >= 2 && assumptionsCount === 7 ? 1 : 0 }}
+                            className="text-[9px] text-muted mt-1"
+                        >
+                            Unstated beliefs detected
+                        </motion.p>
+                    </div>
+                    <div className="text-center">
+                        <p className="text-xs text-muted uppercase tracking-wider mb-1">High-Risk</p>
+                        <motion.p 
+                            animate={{ 
+                                scale: step >= 2 && riskCount > 0 ? [1, 1.2, 1] : 1,
+                                color: step >= 2 && riskCount > 0 ? ["var(--accent)", "#fb923c", "var(--accent)"] : "var(--accent)"
+                            }}
+                            transition={{ duration: 0.4 }}
+                            className="font-display text-4xl font-bold text-accent"
+                        >
+                            {step >= 2 ? riskCount : 0}
+                        </motion.p>
+                        <motion.p 
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: step >= 2 && riskCount === 3 ? 1 : 0 }}
+                            className="text-[9px] text-orange-400/80 mt-1"
+                        >
+                            Failure paths identified
+                        </motion.p>
+                    </div>
+                    <div className="text-center">
+                        <p className="text-xs text-muted uppercase tracking-wider mb-1">Confidence</p>
+                        <motion.div className="relative inline-block">
+                            <p className="font-display text-4xl font-bold text-primary">
+                                {step >= 2 ? confidenceCount : 0}%
+                            </p>
+                            {step >= 2 && confidenceCount === 72 && (
+                                <motion.div 
+                                    animate={{ 
+                                        opacity: [0.2, 0.4, 0.2],
+                                        scale: [1, 1.05, 1]
+                                    }}
+                                    transition={{ 
+                                        duration: 2,
+                                        repeat: Infinity,
+                                        ease: "easeInOut"
+                                    }}
+                                    className="absolute inset-0 blur-lg bg-accent/40"
+                                />
+                            )}
+                        </motion.div>
+                        <motion.p 
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: step >= 2 && confidenceCount === 72 ? 1 : 0 }}
+                            className="text-[9px] text-accent/80 mt-1"
+                        >
+                            Confidence stabilizing
+                        </motion.p>
+                    </div>
+                </div>
+
+                {/* Animated Verdict */}
+                <div className="border-t border-border pt-6">
+                    <motion.div 
+                        initial={{ scaleX: 0 }}
+                        animate={{ scaleX: step >= 3 ? 1 : 0 }}
+                        transition={{ duration: 0.8 }}
+                        className="h-px bg-border w-full mb-6 origin-center"
+                    />
+                    <motion.p 
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: step >= 3 ? 0.6 : 0 }}
+                        transition={{ delay: 0.5 }}
+                        className="text-xs text-muted uppercase tracking-wider text-center mb-2"
+                    >
+                        System Recommendation
+                    </motion.p>
+                    <motion.p 
+                        initial={{ scale: 0.9, opacity: 0, filter: "blur(10px)" }}
+                        animate={{ 
+                            scale: step >= 3 ? 1 : 0.9,
+                            opacity: step >= 3 ? 1 : 0,
+                            filter: step >= 3 ? "blur(0px)" : "blur(10px)"
+                        }}
+                        transition={{ duration: 0.6, delay: 0.7, type: "spring" }}
+                        className="font-display text-3xl font-bold text-accent text-center relative"
+                    >
+                        DELAY
+                        {step >= 3 && (
+                            <motion.span
+                                animate={{
+                                    opacity: [0, 0.3, 0],
+                                    scale: [0.95, 1.05, 0.95]
+                                }}
+                                transition={{
+                                    duration: 2.5,
+                                    repeat: Infinity,
+                                    ease: "easeInOut"
+                                }}
+                                className="absolute inset-0 blur-xl bg-accent/30"
+                            />
+                        )}
+                    </motion.p>
+                    <motion.p 
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: step >= 3 ? 1 : 0 }}
+                        transition={{ delay: 1.2 }}
+                        className="text-xs text-muted text-center mt-2"
+                    >
+                        Based on risk asymmetry
+                    </motion.p>
+                </div>
+            </div>
+        </section>
+    );
+}
 
 export default Home;
