@@ -28,8 +28,13 @@ export default {
                 'fade-in': 'fadeIn 0.4s ease-out',
                 'slide-up': 'slideUp 0.4s ease-out',
                 'pulse-glow': 'pulseGlow 2s ease-in-out infinite',
+                'shimmer': 'shimmer 2s linear infinite',
             },
             keyframes: {
+                shimmer: {
+                    'from': { transform: 'translateX(-100%)' },
+                    'to': { transform: 'translateX(100%)' },
+                },
                 fadeIn: {
                     '0%': { opacity: '0' },
                     '100%': { opacity: '1' },
