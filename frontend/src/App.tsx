@@ -5,7 +5,7 @@ import { decomposeDecision } from './features/decision/decisionApi';
 import { generateScenarios } from './features/adversarial/scenarioApi';
 import { generateExperiments } from './features/experiments/experimentApi';
 import { synthesizeConfidence, simulateStakeholders } from './features/verdict/verdictApi';
-import { DecisionAnalysis, ScenarioAnalysis, ExperimentPlan, SynthesizerAnalysis, StakeholderAnalysis } from './types';
+import { DecisionAnalysis, ScenarioAnalysis, ExperimentPlan, SynthesizerAnalysis, StakeholderAnalysis } from './types/index';
 import { AlertCircle } from 'lucide-react';
 
 const App: React.FC = () => {

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Beaker, Clock, DollarSign, CheckCircle2, AlertOctagon, ArrowRight, Wrench } from 'lucide-react';
-import { ExperimentPlan } from '../types';
+import { ExperimentPlan } from '../types/index';
 
 interface ExperimentListProps {
   plan: ExperimentPlan;
@@ -29,7 +29,7 @@ export const ExperimentList: React.FC<ExperimentListProps> = ({ plan }) => {
           <div key={index} className="relative group">
             <div className="absolute -inset-0.5 bg-gradient-to-r from-emerald-600 to-cyan-600 rounded-2xl opacity-20 group-hover:opacity-40 transition duration-500 blur"></div>
             <div className="relative bg-slate-900 border border-slate-700 rounded-xl p-6 hover:border-emerald-500/30 transition-colors">
-              
+
               {/* Header */}
               <div className="flex flex-col md:flex-row justify-between items-start gap-4 mb-6 border-b border-slate-800 pb-4">
                 <div>
@@ -44,7 +44,7 @@ export const ExperimentList: React.FC<ExperimentListProps> = ({ plan }) => {
                   <h3 className="text-xl font-bold text-white mb-1">{exp.experiment_design}</h3>
                   <p className="text-emerald-400 text-sm font-mono">{exp.objective}</p>
                 </div>
-                
+
                 <div className="flex items-center gap-4 text-sm text-slate-400 bg-slate-950/50 px-4 py-2 rounded-lg border border-slate-800">
                   <div className="flex items-center gap-1.5" title="Duration">
                     <Clock className="w-4 h-4 text-emerald-500" />
@@ -60,7 +60,7 @@ export const ExperimentList: React.FC<ExperimentListProps> = ({ plan }) => {
 
               {/* Grid Details */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                
+
                 {/* Left Column: Requirements & Success */}
                 <div className="space-y-6">
                   <div>

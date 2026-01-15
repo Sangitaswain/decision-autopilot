@@ -1,5 +1,5 @@
 import React from 'react';
-import { StakeholderAnalysis, Sentiment } from '../types';
+import { StakeholderAnalysis, Sentiment } from '../types/index';
 import { MessageSquareQuote, Users, ThumbsUp, ThumbsDown, Minus, HelpCircle, Zap } from 'lucide-react';
 
 interface StakeholderReactionsProps {
@@ -36,12 +36,12 @@ export const StakeholderReactions: React.FC<StakeholderReactionsProps> = ({ anal
           {analysis.consensus_prediction}
         </p>
         <div className="flex flex-wrap gap-2">
-            {analysis.political_friction_points.map((point, i) => (
-                <span key={i} className="text-xs flex items-center gap-1 bg-rose-950/40 px-2 py-1 rounded text-rose-200 border border-rose-900/50">
-                    <Zap className="w-3 h-3" />
-                    {point}
-                </span>
-            ))}
+          {analysis.political_friction_points.map((point, i) => (
+            <span key={i} className="text-xs flex items-center gap-1 bg-rose-950/40 px-2 py-1 rounded text-rose-200 border border-rose-900/50">
+              <Zap className="w-3 h-3" />
+              {point}
+            </span>
+          ))}
         </div>
       </div>
 
@@ -49,29 +49,29 @@ export const StakeholderReactions: React.FC<StakeholderReactionsProps> = ({ anal
         {analysis.stakeholders.map((person, index) => (
           <div key={index} className={`relative rounded-xl p-6 border ${getSentimentColor(person.sentiment)} transition-transform hover:scale-[1.01]`}>
             <div className="flex justify-between items-start mb-4">
-                <div>
-                    <h4 className="text-xl font-bold text-white">{person.role}</h4>
-                    <div className="flex items-center gap-2 mt-1">
-                        <SentimentIcon sentiment={person.sentiment} />
-                        <span className="text-xs font-mono uppercase tracking-wider text-slate-400">{person.sentiment}</span>
-                    </div>
+              <div>
+                <h4 className="text-xl font-bold text-white">{person.role}</h4>
+                <div className="flex items-center gap-2 mt-1">
+                  <SentimentIcon sentiment={person.sentiment} />
+                  <span className="text-xs font-mono uppercase tracking-wider text-slate-400">{person.sentiment}</span>
                 </div>
-                <div className="flex flex-col items-end">
-                    <span className={`text-2xl font-bold ${person.alignment_score > 70 ? 'text-emerald-400' : person.alignment_score < 40 ? 'text-red-400' : 'text-orange-400'}`}>
-                        {person.alignment_score}%
-                    </span>
-                    <span className="text-[10px] uppercase text-slate-500">Alignment</span>
-                </div>
+              </div>
+              <div className="flex flex-col items-end">
+                <span className={`text-2xl font-bold ${person.alignment_score > 70 ? 'text-emerald-400' : person.alignment_score < 40 ? 'text-red-400' : 'text-orange-400'}`}>
+                  {person.alignment_score}%
+                </span>
+                <span className="text-[10px] uppercase text-slate-500">Alignment</span>
+              </div>
             </div>
 
             <div className="relative bg-black/20 rounded-lg p-4 mb-3 italic text-slate-300 text-sm">
-                <MessageSquareQuote className="absolute -top-2 -left-2 w-6 h-6 text-slate-600 bg-slate-900 rounded-full p-1" />
-                "{person.simulated_quote}"
+              <MessageSquareQuote className="absolute -top-2 -left-2 w-6 h-6 text-slate-600 bg-slate-900 rounded-full p-1" />
+              "{person.simulated_quote}"
             </div>
 
             <p className="text-xs text-slate-500 mt-2">
-                <span className="font-bold text-slate-400">Main Motivation: </span>
-                {person.key_concern_or_motivation}
+              <span className="font-bold text-slate-400">Main Motivation: </span>
+              {person.key_concern_or_motivation}
             </p>
           </div>
         ))}

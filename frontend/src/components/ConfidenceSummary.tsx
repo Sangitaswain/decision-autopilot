@@ -1,5 +1,5 @@
 import React from 'react';
-import { SynthesizerAnalysis, Verdict } from '../types';
+import { SynthesizerAnalysis, Verdict } from '../types/index';
 import { AlertOctagon, CheckCircle2, PauseCircle, ShieldAlert, ArrowRightCircle } from 'lucide-react';
 
 interface ConfidenceSummaryProps {
@@ -34,7 +34,7 @@ export const ConfidenceSummary: React.FC<ConfidenceSummaryProps> = ({ synthesis 
 
   return (
     <div className="animate-fade-in-up space-y-8">
-      
+
       {/* Hero Banner */}
       <div className={`relative overflow-hidden rounded-3xl p-8 border ${config.bg} flex flex-col md:flex-row items-center justify-between gap-8`}>
         {/* Verdict */}
@@ -86,7 +86,7 @@ export const ConfidenceSummary: React.FC<ConfidenceSummaryProps> = ({ synthesis 
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        
+
         {/* Rationale & Action */}
         <div className="space-y-6">
           <div className="bg-slate-900/50 rounded-xl p-6 border border-slate-800">
@@ -109,7 +109,7 @@ export const ConfidenceSummary: React.FC<ConfidenceSummaryProps> = ({ synthesis 
 
         {/* Risks & Preconditions */}
         <div className="space-y-6">
-           {/* Unresolved Risks */}
+          {/* Unresolved Risks */}
           <div className="bg-slate-900/50 rounded-xl p-6 border border-slate-800">
             <h3 className="text-sm font-bold text-red-400 uppercase tracking-wider mb-3 flex items-center gap-2">
               <ShieldAlert className="w-4 h-4" />
@@ -118,7 +118,7 @@ export const ConfidenceSummary: React.FC<ConfidenceSummaryProps> = ({ synthesis 
             <ul className="space-y-3">
               {synthesis.top_unresolved_risks.map((risk, i) => (
                 <li key={i} className="flex gap-3 text-slate-300 text-sm">
-                  <span className="text-red-500/50 font-mono mt-0.5">0{i+1}</span>
+                  <span className="text-red-500/50 font-mono mt-0.5">0{i + 1}</span>
                   {risk}
                 </li>
               ))}
@@ -127,19 +127,19 @@ export const ConfidenceSummary: React.FC<ConfidenceSummaryProps> = ({ synthesis 
 
           {/* Required Preconditions */}
           {synthesis.required_preconditions.length > 0 && (
-             <div className="bg-slate-900/50 rounded-xl p-6 border border-slate-800">
-                <h3 className="text-sm font-bold text-amber-400 uppercase tracking-wider mb-3">
-                  Required Preconditions
-                </h3>
-                <ul className="space-y-2">
-                  {synthesis.required_preconditions.map((cond, i) => (
-                    <li key={i} className="flex gap-2 text-sm text-slate-400">
-                      <span className="text-amber-500 font-bold">•</span>
-                      {cond}
-                    </li>
-                  ))}
-                </ul>
-             </div>
+            <div className="bg-slate-900/50 rounded-xl p-6 border border-slate-800">
+              <h3 className="text-sm font-bold text-amber-400 uppercase tracking-wider mb-3">
+                Required Preconditions
+              </h3>
+              <ul className="space-y-2">
+                {synthesis.required_preconditions.map((cond, i) => (
+                  <li key={i} className="flex gap-2 text-sm text-slate-400">
+                    <span className="text-amber-500 font-bold">•</span>
+                    {cond}
+                  </li>
+                ))}
+              </ul>
+            </div>
           )}
         </div>
 
