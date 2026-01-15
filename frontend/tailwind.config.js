@@ -9,16 +9,20 @@ export default {
             fontFamily: {
                 sans: ['Inter', 'system-ui', 'sans-serif'],
                 script: ['"Playfair Display"', 'serif'],
+                mono: ['"JetBrains Mono"', '"IBM Plex Mono"', 'monospace'],
             },
             colors: {
-                background: '#020617',
-                surface: '#0B1220',
+                background: '#0B0D10', // Deep neutral black
+                surface: '#111318',    // Dark card bg
                 border: '#1E293B',
-                primary: '#E5E7EB',
-                secondary: '#9CA3AF',
+                primary: '#F8FAFC',    // Bright white
+                secondary: '#A1A1AA',  // Muted gray
                 muted: '#6B7280',
-                accent: '#22D3EE', // Electric Cyan
-                gold: '#F0B36E',   // Soft Gold for script
+                accent: '#22D3EE',
+                gold: '#F0B36E',
+                amber: {
+                    500: '#F59E0B',
+                }
             },
             animation: {
                 'fade-in': 'fadeIn 0.4s ease-out',
