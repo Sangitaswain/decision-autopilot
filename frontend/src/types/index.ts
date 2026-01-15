@@ -60,7 +60,7 @@ export interface ScenarioAnalysis {
   scenarios: AdversarialScenario[];
   // We keep thought_signature in the schema to maintain thinking visibility, 
   // even if not explicitly in the prompt text example.
-  thought_signature?: string[]; 
+  thought_signature?: string[];
 }
 
 export interface ExperimentResources {
@@ -114,4 +114,13 @@ export interface StakeholderAnalysis {
   stakeholders: StakeholderReaction[];
   consensus_prediction: string;
   political_friction_points: string[];
+}
+
+// Full analysis response from the orchestrator
+export interface FullAnalysisResponse {
+  decomposition: DecisionAnalysis;
+  scenarios: ScenarioAnalysis;
+  experiments: ExperimentPlan;
+  synthesis: SynthesizerAnalysis;
+  stakeholders?: StakeholderAnalysis;
 }

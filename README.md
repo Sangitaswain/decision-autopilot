@@ -1,20 +1,71 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-</div>
+# Decision Autopilot
 
-# Run and deploy your AI Studio app
+> A multi-agent decision orchestration system powered by Google Gemini
 
-This contains everything you need to run your app locally.
+## 🧠 What is this?
 
-View your app in AI Studio: https://ai.studio/apps/drive/1CnLpK1rthZ693rJ5UP4LwD2tGYe-B__g
+Decision Autopilot helps you analyze high-stakes decisions by running them through a pipeline of 5 specialized AI agents:
 
-## Run Locally
+1. **Decomposer** - Extracts claims, KPIs, assumptions, and risks
+2. **Adversarial** - Generates failure scenarios and warning signals  
+3. **Experiment Planner** - Designs experiments to test risky assumptions
+4. **Confidence Synthesizer** - Produces PROCEED/DELAY/ABORT verdict
+5. **Stakeholder Simulator** - Predicts organizational reactions
 
-**Prerequisites:**  Node.js
+## 🏗️ Architecture
 
+```
+decision-autopilot/
+├── frontend/          # React + TypeScript UI
+│   └── src/
+│       ├── features/  # Feature-based organization (mirrors agents)
+│       ├── components/
+│       └── api/
+├── backend/           # FastAPI orchestrator
+│   └── app/
+│       ├── agents/    # 👈 One file per AI agent
+│       ├── api/
+│       ├── schemas/
+│       └── orchestrator.py
+├── docs/              # Architecture documentation
+└── infra/             # Environment config
+```
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+## 🚀 Quick Start
+
+### Backend
+```bash
+cd backend
+pip install -r requirements.txt
+
+# Set your Gemini API key
+echo "GEMINI_API_KEY=your_key_here" > .env
+
+# Run the server
+uvicorn app.main:app --reload
+```
+
+### Frontend
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+## 📚 Documentation
+
+- [Architecture Overview](docs/architecture.md)
+- [Agent Flow](docs/agent-flow.md)
+
+## 🔑 Environment Variables
+
+Copy `infra/env.example` to `.env` and configure:
+
+| Variable | Description |
+|----------|-------------|
+| `GEMINI_API_KEY` | Your Google Gemini API key |
+| `VITE_API_BASE_URL` | Backend URL (default: http://localhost:8000) |
+
+## 📄 License
+
+MIT

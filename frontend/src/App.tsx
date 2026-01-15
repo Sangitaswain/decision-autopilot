@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
 import { InputForm } from './components/InputForm';
 import { Dashboard } from './components/Dashboard';
-import { decomposeDecision, generateScenarios, generateExperiments, synthesizeConfidence, simulateStakeholders } from './services/gemini';
+import { decomposeDecision } from './features/decision/decisionApi';
+import { generateScenarios } from './features/adversarial/scenarioApi';
+import { generateExperiments } from './features/experiments/experimentApi';
+import { synthesizeConfidence, simulateStakeholders } from './features/verdict/verdictApi';
 import { DecisionAnalysis, ScenarioAnalysis, ExperimentPlan, SynthesizerAnalysis, StakeholderAnalysis } from './types';
 import { AlertCircle } from 'lucide-react';
 
@@ -11,13 +14,13 @@ const App: React.FC = () => {
   const [experiments, setExperiments] = useState<ExperimentPlan | null>(null);
   const [synthesis, setSynthesis] = useState<SynthesizerAnalysis | null>(null);
   const [stakeholders, setStakeholders] = useState<StakeholderAnalysis | null>(null);
-  
+
   const [isDecomposing, setIsDecomposing] = useState(false);
   const [isGeneratingScenarios, setIsGeneratingScenarios] = useState(false);
   const [isGeneratingExperiments, setIsGeneratingExperiments] = useState(false);
   const [isSynthesizing, setIsSynthesizing] = useState(false);
   const [isSimulatingStakeholders, setIsSimulatingStakeholders] = useState(false);
-  
+
   const [error, setError] = useState<string | null>(null);
 
   const handleAnalyze = async (decision: string, context: string) => {
@@ -39,7 +42,7 @@ const App: React.FC = () => {
 
   const handleGenerateScenarios = async () => {
     if (!analysis) return;
-    
+
     setIsGeneratingScenarios(true);
     setError(null);
     try {
@@ -110,14 +113,14 @@ const App: React.FC = () => {
     <div className="min-h-screen bg-slate-950 text-slate-200 selection:bg-indigo-500/30">
       {/* Background decoration */}
       <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden">
-         <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-indigo-900/10 blur-[100px] rounded-full"></div>
-         <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-blue-900/10 blur-[100px] rounded-full"></div>
+        <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-indigo-900/10 blur-[100px] rounded-full"></div>
+        <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-blue-900/10 blur-[100px] rounded-full"></div>
       </div>
 
       <div className="relative z-10 container mx-auto px-4 py-8 md:py-12">
         <header className="mb-12 text-center">
           <div className="inline-flex items-center justify-center px-3 py-1 mb-4 rounded-full bg-slate-900 border border-slate-700 text-xs font-mono text-indigo-400">
-             DECISION_AUTOPILOT_v1.0
+            DECISION_AUTOPILOT_v1.0
           </div>
         </header>
 
@@ -134,13 +137,13 @@ const App: React.FC = () => {
         {!analysis ? (
           <InputForm onAnalyze={handleAnalyze} isLoading={isDecomposing} />
         ) : (
-          <Dashboard 
-            analysis={analysis} 
+          <Dashboard
+            analysis={analysis}
             scenarios={scenarios}
             experiments={experiments}
             synthesis={synthesis}
             stakeholders={stakeholders}
-            onReset={handleReset} 
+            onReset={handleReset}
             onGenerateScenarios={handleGenerateScenarios}
             onGenerateExperiments={handleGenerateExperiments}
             onSynthesizeConfidence={handleSynthesizeConfidence}
